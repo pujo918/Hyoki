@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuis Hyoki Master — Latihan Soal Kanji & Jukugo</title>
+  <!-- Google Fonts: Inter & Noto Sans JP -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- ===== LOGO & HEADER ===== -->
+    <header>
+      <div class="logo-section">
+        <h1>HYOKI QUIZ</h1>
+        <p>Latihan Soal Jukugo, Bushu, & Arti — JLPT N3/N2</p>
+      </div>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Theme">☀</button>
+    </header>
+
+    <!-- ============================================== -->
+    <!-- 1. DASHBOARD SCREEN (KONTROL PENYETELAN KUIS & DAFTAR BELAJAR) -->
+    <!-- ============================================== -->
+    <div id="dashboard-screen" class="glass-panel">
+      
+      <!-- Tab Selector -->
+      <div class="tab-selectors">
+        <button id="tab-quiz-btn" class="tab-btn active" onclick="switchDashboardTab('quiz')">Mulai Kuis</button>
+        <button id="tab-study-btn" class="tab-btn" onclick="switchDashboardTab('study')">Daftar Jukugo</button>
+      </div>
+
+      <!-- Area Penyetelan Kuis -->
+      <div id="quiz-setup-area">
+        <div class="setup-grid">
+          
+          <!-- Pilihan Bab / Pertemuan -->
+          <div class="setup-box">
+            <div class="section-title">Pilih Pertemuan</div>
+            <div class="checkbox-group">
+              <label class="checkbox-label" style="grid-column: span 2; border-bottom: 1px dashed var(--border); padding-bottom: 0.5rem; margin-bottom: 0.5rem;">
+                <input type="checkbox" id="select-all-sessions" checked onchange="toggleSelectAllSessions()">
+                <strong>Pilih Semua Pertemuan</strong>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" class="session-checkbox" value="6" checked onchange="onSessionCheckboxChange()">
+                Pertemuan 6
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" class="session-checkbox" value="7" checked onchange="onSessionCheckboxChange()">
+                Pertemuan 7
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" class="session-checkbox" value="8" checked onchange="onSessionCheckboxChange()">
+                Pertemuan 8
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" class="session-checkbox" value="9" checked onchange="onSessionCheckboxChange()">
+                Pertemuan 9
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" class="session-checkbox" value="10" checked onchange="onSessionCheckboxChange()">
+                Pertemuan 10
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" class="session-checkbox" value="11" checked onchange="onSessionCheckboxChange()">
+                Pertemuan 11
+              </label>
+            </div>
+            <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted);">
+              * Pilihan bab ini juga menyaring daftar jukugo untuk belajar.
+            </div>
+          </div>
+
+          <!-- Pilihan Aspek Latihan -->
+          <div class="setup-box">
+            <div class="section-title">Aspek yang Diuji</div>
+            <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+              
+              <label class="checkbox-label" style="border-bottom: 1px dashed var(--border); padding-bottom: 0.5rem; margin-bottom: 0.2rem;">
+                <input type="checkbox" id="select-all-aspects" checked onchange="toggleSelectAllAspects()">
+                <strong>Pilih Semua Aspek</strong>
+              </label>
+              
+              <!-- Jukugo Group -->
+              <div class="aspect-group">
+                <div class="aspect-group-header" onclick="toggleAspectCollapse('collapse-jukugo', this)">
+                  <label class="checkbox-label main-aspect" onclick="event.stopPropagation()">
+                    <input type="checkbox" id="aspect-jukugo" checked onchange="toggleGroupCheckboxes('aspect-jukugo', 'sub-jukugo')">
+                    <strong>Jukugo</strong>
+                  </label>
+                  <span class="arrow-icon" style="transform: rotate(-90deg);">▼</span>
+                </div>
+                <div id="collapse-jukugo" class="sub-aspects collapsed">
+                  <label class="checkbox-label sub-aspect">
+                    <input type="checkbox" class="type-checkbox sub-jukugo" value="jukugo-reading" checked onchange="updateParentCheckbox('aspect-jukugo', 'sub-jukugo')">
+                    Jukugo to Hiragana
+                  </label>
+                  <label class="checkbox-label sub-aspect">
+                    <input type="checkbox" class="type-checkbox sub-jukugo" value="jukugo-writing" checked onchange="updateParentCheckbox('aspect-jukugo', 'sub-jukugo')">
+                    Hiragana to Kanji
+                  </label>
+                </div>
+              </div>
+
+              <!-- Bushu Group -->
+              <div class="aspect-group">
+                <div class="aspect-group-header" onclick="toggleAspectCollapse('collapse-bushu', this)">
+                  <label class="checkbox-label main-aspect" onclick="event.stopPropagation()">
+                    <input type="checkbox" id="aspect-bushu" checked onchange="toggleGroupCheckboxes('aspect-bushu', 'sub-bushu')">
+                    <strong>Bushu (Radikal)</strong>
+                  </label>
+                  <span class="arrow-icon" style="transform: rotate(-90deg);">▼</span>
+                </div>
+                <div id="collapse-bushu" class="sub-aspects collapsed">
+                  <label class="checkbox-label sub-aspect">
+                    <input type="checkbox" class="type-checkbox sub-bushu" value="bushu-identification" checked onchange="updateParentCheckbox('aspect-bushu', 'sub-bushu')">
+                    Bushu dari kanji ini apa
+                  </label>
+                  <label class="checkbox-label sub-aspect">
+                    <input type="checkbox" class="type-checkbox sub-bushu" value="bushu-meaning" checked onchange="updateParentCheckbox('aspect-bushu', 'sub-bushu')">
+                    Bushu Arti
+                  </label>
+                </div>
+              </div>
+
+              <!-- Arti Group -->
+              <div class="aspect-group">
+                <div class="aspect-group-header" onclick="toggleAspectCollapse('collapse-arti', this)">
+                  <label class="checkbox-label main-aspect" onclick="event.stopPropagation()">
+                    <input type="checkbox" id="aspect-arti" checked onchange="toggleGroupCheckboxes('aspect-arti', 'sub-arti')">
+                    <strong>Arti Kata</strong>
+                  </label>
+                  <span class="arrow-icon" style="transform: rotate(-90deg);">▼</span>
+                </div>
+                <div id="collapse-arti" class="sub-aspects collapsed">
+                  <label class="checkbox-label sub-aspect">
+                    <input type="checkbox" class="type-checkbox sub-arti" value="arti-meaning" checked onchange="updateParentCheckbox('aspect-arti', 'sub-arti')">
+                    Jukugo to Arti
+                  </label>
+                  <label class="checkbox-label sub-aspect">
+                    <input type="checkbox" class="type-checkbox sub-arti" value="arti-kanji" checked onchange="updateParentCheckbox('aspect-arti', 'sub-arti')">
+                    Arti to Jukugo
+                  </label>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Limit & Urutan Soal -->
+        <div class="limit-order-grid">
+          <!-- Limit / Jumlah Soal -->
+          <div class="setup-box">
+            <div class="section-title">Jumlah Soal</div>
+            <div class="radio-group">
+              <label class="radio-label checked">
+                <input type="radio" name="quiz-limit" value="10" checked>
+                10 Soal
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="quiz-limit" value="20">
+                20 Soal
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="quiz-limit" value="50">
+                50 Soal
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="quiz-limit" value="999">
+                Semua Soal
+              </label>
+            </div>
+          </div>
+
+          <!-- Urutan Soal -->
+          <div class="setup-box">
+            <div class="section-title">Urutan Soal</div>
+            <div class="radio-group">
+              <label class="radio-label checked">
+                <input type="radio" name="quiz-order" value="random" checked>
+                Acak (Random)
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="quiz-order" value="sequential">
+                Urut Materi
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mulai Ujian -->
+        <button class="btn-primary" onclick="startQuiz()">
+          Mulai Latihan Kuis
+        </button>
+      </div>
+
+      <!-- Area Belajar Mandiri (Daftar Jukugo) -->
+      <div id="study-area" class="hidden">
+        <p style="font-size: 0.95rem; color: var(--text-muted); text-align: center; margin-bottom: 2rem;">
+          Pilih salah satu pertemuan di bawah untuk membuka daftar kosakata jukugo lengkap.
+        </p>
+        <div class="study-grid">
+          <div class="study-card" onclick="openStudyModal(6)">
+            <span class="study-card-num">06</span>
+            <span class="study-card-title">Pertemuan 6</span>
+            <span class="study-card-stats">23 Kanji • ~300 Jukugo</span>
+          </div>
+          <div class="study-card" onclick="openStudyModal(7)">
+            <span class="study-card-num">07</span>
+            <span class="study-card-title">Pertemuan 7</span>
+            <span class="study-card-stats">23 Kanji • ~300 Jukugo</span>
+          </div>
+          <div class="study-card" onclick="openStudyModal(8)">
+            <span class="study-card-num">08</span>
+            <span class="study-card-title">Pertemuan 8</span>
+            <span class="study-card-stats">23 Kanji • ~300 Jukugo</span>
+          </div>
+          <div class="study-card" onclick="openStudyModal(9)">
+            <span class="study-card-num">09</span>
+            <span class="study-card-title">Pertemuan 9</span>
+            <span class="study-card-stats">23 Kanji • ~300 Jukugo</span>
+          </div>
+          <div class="study-card" onclick="openStudyModal(10)">
+            <span class="study-card-num">10</span>
+            <span class="study-card-title">Pertemuan 10</span>
+            <span class="study-card-stats">23 Kanji • ~300 Jukugo</span>
+          </div>
+          <div class="study-card" onclick="openStudyModal(11)">
+            <span class="study-card-num">11</span>
+            <span class="study-card-title">Pertemuan 11</span>
+            <span class="study-card-stats">23 Kanji • ~300 Jukugo</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============================================== -->
+    <!-- 2. QUIZ PLAYING SCREEN (HALAMAN KERJA SOAL) -->
+    <!-- ============================================== -->
+    <div id="quiz-screen" class="glass-panel hidden">
+      
+      <!-- Atas: Indikator & Timer -->
+      <div class="quiz-header">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <button class="back-to-home-btn" onclick="confirmExitQuiz()">
+            &larr; Kembali
+          </button>
+          <span id="quiz-progress-text">Soal 1 dari --</span>
+        </div>
+        <span id="quiz-timer">Waktu: 00:00</span>
+      </div>
+      
+      <!-- Progress Bar -->
+      <div class="progress-container">
+        <div id="progress-bar" class="progress-bar"></div>
+      </div>
+
+      <!-- Area Soal -->
+      <div class="question-box">
+        <div id="q-badge" class="question-badge">Kategori Soal</div>
+        <h2 id="q-text" class="question-text">Teks Pertanyaan Kanji/Jukugo di Sini</h2>
+        <p id="q-subtext" class="question-subtext">Penjelasan Tambahan...</p>
+      </div>
+
+      <!-- Pilihan Ganda -->
+      <div id="options-grid" class="options-grid">
+        <!-- Generasi Dinamis via JS -->
+      </div>
+
+      <!-- Panel Pembahasan (Keluar setelah pilih jawaban) -->
+      <div id="explanation-panel" class="explanation-panel hidden">
+        <div class="explanation-title">Pembahasan:</div>
+        <div id="explanation-body" class="explanation-body">
+          Detail penafsiran arti kanji, cara baca jukugo, dan arti radikal.
+        </div>
+      </div>
+
+      <!-- Navigasi Bawah -->
+      <div class="quiz-actions">
+        <button id="next-btn" class="btn-primary hidden" onclick="nextQuestion()" style="width: auto;">
+          Soal Berikutnya
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ============================================== -->
+    <!-- 3. RESULTS SCREEN (RINGKASAN SKOR & ULASAN)   -->
+    <!-- ============================================== -->
+    <div id="results-screen" class="glass-panel hidden">
+      
+      <!-- Header Hasil -->
+      <div class="results-header">
+        <div class="section-title" style="justify-content: center; font-size: 1.3rem;">Hasil Latihan Anda</div>
+        <div class="score-circle">
+          <span id="score-num" class="score-num">--</span>
+          <span class="score-label">Skor Akhir</span>
+        </div>
+        <p id="score-comment" style="font-weight: 500; opacity: 0.85;"></p>
+      </div>
+
+      <!-- Statistik -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div id="stat-correct" class="stat-val correct">--</div>
+          <div class="stat-lbl">Benar</div>
+        </div>
+        <div class="stat-card">
+          <div id="stat-incorrect" class="stat-val incorrect">--</div>
+          <div class="stat-lbl">Salah</div>
+        </div>
+        <div class="stat-card">
+          <div id="stat-time" class="stat-val">--</div>
+          <div class="stat-lbl">Waktu</div>
+        </div>
+      </div>
+
+      <!-- Daftar Ulasan Soal -->
+      <div class="section-title">Tinjau Kembali Jawaban Anda</div>
+      <div id="review-container" style="margin-bottom: 2rem;">
+        <!-- Collapsible logs render via JS -->
+      </div>
+
+      <!-- Navigasi Aksi Akhir -->
+      <div class="results-actions">
+        <button id="retry-failed-btn" class="btn-primary hidden" onclick="retryFailedQuestions()" style="background: linear-gradient(135deg, #ef4444 0%, #f87171 100%); color: white; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);">
+          Ulangi Soal Salah
+        </button>
+        <button class="btn-primary" onclick="startQuiz()">
+          Mulai Kuis Baru
+        </button>
+        <button class="btn-secondary" onclick="returnToDashboard()" style="grid-column: span 2; justify-content: center;">
+          Kembali ke Beranda
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ===== MODAL POPUP UNTUK DAFTAR BELAJAR JUKUGO ===== -->
+  <div id="study-modal" class="modal-overlay hidden" onclick="closeStudyModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h2 id="modal-title">Daftar Jukugo</h2>
+        <button class="modal-close-btn" onclick="closeStudyModal(event)">✕</button>
+      </div>
+      <div id="modal-search-container" style="margin-bottom: 1.5rem; display: flex; gap: 1rem;">
+        <input type="text" id="modal-search" placeholder="Cari kosakata, hiragana, atau arti..." oninput="filterModalStudyList()" style="flex: 1; padding: 0.8rem 1.2rem; border-radius: 0.8rem; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-family: var(--font); font-size: 1rem; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
+      </div>
+      <div id="modal-body-container" style="max-height: 60vh; overflow-y: auto; padding-right: 0.5rem;">
+        <!-- Kosakata Jukugo dimuat dinamis -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DATA DATABASES ===== -->
+  <script src="../hyoki-module/data_p6.js"></script>
+  <script src="../hyoki-module/data_p7.js"></script>
+  <script src="../hyoki-module/data_p8.js"></script>
+  <script src="../hyoki-module/data_p9.js"></script>
+  <script src="../hyoki-module/data_p10.js"></script>
+  <script src="../hyoki-module/data_p11.js"></script>
+  <script src="bushu_data.js"></script>
+  
+  <!-- ===== LOGIKA APLIKASI ===== -->
+  <script src="app.js"></script>
+
+</body>
+</html>
