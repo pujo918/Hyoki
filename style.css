@@ -1189,3 +1189,108 @@ skinny_border {
   font-size: 0.9rem;
   padding: 0.7rem 1rem;
 }
+
+/* ===== MOBILE VIEW OPTIMIZATIONS ===== */
+@media (max-width: 600px) {
+  /* Transform vocabulary tables into beautiful flexible row lists */
+  .study-table, 
+  .study-table tbody {
+    display: block;
+    width: 100% !important;
+  }
+  
+  .study-table tr {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    border-bottom: 1px solid var(--border);
+    padding: 0.8rem 0;
+    width: 100% !important;
+  }
+  
+  .study-table tr:last-child {
+    border-bottom: none;
+  }
+  
+  .study-table td {
+    padding: 0.1rem 0 !important;
+    border: none !important;
+    background: none !important;
+    text-align: left !important;
+  }
+  
+  /* Kanji Word and Reading side-by-side */
+  .study-word {
+    order: 1;
+    font-size: 1.25rem !important;
+    width: auto !important;
+    margin-right: 0.6rem;
+    font-family: 'Noto Serif JP', sans-serif;
+    font-weight: 700;
+  }
+  
+  .study-reading {
+    order: 2;
+    font-size: 0.88rem !important;
+    color: var(--text-muted);
+    width: auto !important;
+    flex-grow: 1;
+  }
+  
+  /* Priority stars placed on the top right corner */
+  .study-prio {
+    order: 3;
+    font-size: 0.85rem !important;
+    color: var(--accent);
+    width: auto !important;
+    text-align: right !important;
+  }
+  
+  /* Meaning under the word */
+  .study-meaning {
+    order: 4;
+    width: 100% !important;
+    margin-top: 0.3rem;
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+}
+
+@media (max-width: 500px) {
+  /* Reduce excessive modal and dashboard container paddings on small screens */
+  .modal-content, 
+  .glass-panel {
+    padding: 1.2rem !important;
+    border-radius: 1rem !important;
+  }
+  
+  .modal-header h2 {
+    font-size: 1.15rem !important;
+  }
+}
+
+@media (max-width: 400px) {
+  /* Adjust kanji grid column size for compact mobile displays */
+  .kanji-grid {
+    grid-template-columns: repeat(auto-fill, minmax(95px, 1fr)) !important;
+    gap: 0.6rem !important;
+  }
+  
+  .kanji-card {
+    padding: 0.8rem 0.5rem !important;
+  }
+  
+  .kanji-card-char {
+    font-size: 1.8rem !important;
+  }
+  
+  .flashcard-card {
+    width: 280px !important;
+    height: 190px !important;
+  }
+  
+  .flashcard-japanese {
+    font-size: 2.4rem !important;
+  }
+}
