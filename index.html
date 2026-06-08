@@ -15,8 +15,9 @@
     <!-- ===== LOGO & HEADER ===== -->
     <header>
       <div class="logo-section">
+        <div class="brand-badge">表記 JUKUGO & KANJI</div>
         <h1>HYOKI QUIZ</h1>
-        <p>Latihan Soal Jukugo, Bushu, & Arti — JLPT N3/N2</p>
+        <p class="brand-subtitle">Platform Latihan Soal Mandiri & Kuis Interaktif Kanji 表記 — JLPT N3/N2</p>
       </div>
       <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Theme">☀</button>
     </header>
@@ -152,6 +153,13 @@
 
         </div>
 
+        <!-- Mulai Ujian -->
+        <div class="start-btn-container" style="margin: 1.8rem 0 2.2rem 0;">
+          <button class="btn-primary" onclick="startQuiz()">
+            Mulai Latihan Kuis
+          </button>
+        </div>
+
         <!-- Limit & Urutan Soal -->
         <div class="limit-order-grid">
           <!-- Limit / Jumlah Soal -->
@@ -192,11 +200,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Mulai Ujian -->
-        <button class="btn-primary" onclick="startQuiz()">
-          Mulai Latihan Kuis
-        </button>
       </div>
 
       <!-- Area Belajar Mandiri (Daftar Jukugo) -->
